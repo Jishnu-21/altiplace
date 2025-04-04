@@ -9,7 +9,7 @@ interface SplashLoaderProps {
 }
 
 const SplashLoader: React.FC<SplashLoaderProps> = ({ 
-  duration = 4000, 
+  duration = 60000, 
   onLoadComplete 
 }) => {
   const [progress, setProgress] = useState(0);
