@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface SplashLoaderProps {
   duration?: number; // Duration in milliseconds
@@ -53,7 +54,14 @@ const SplashLoader: React.FC<SplashLoaderProps> = ({
       <div className="w-full max-w-md px-4">
         {/* Logo */}
         <div className="flex justify-center mb-12">
-          <div className="text-white text-4xl font-bold tracking-wider">ALTIPLACE</div>
+          <Image 
+            src="/images/logo/logo.webp" 
+            alt="Altiplace Logo" 
+            width={200} 
+            height={80} 
+            priority
+            className="object-contain"
+          />
         </div>
         
         {/* Progress bar */}

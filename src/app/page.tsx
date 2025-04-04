@@ -6,6 +6,7 @@ import VeloGlow from '@/components/VeloGlow';
 import ColorChangeText from '@/components/ColorChangeText';
 import ReelsCards from '@/components/ReelsCards';
 import SplashLoader from '@/components/SplashLoader';
+import FaqAccordionNew from '@/components/FaqAccordionNew';
 
 const ImageScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -272,7 +273,7 @@ const ZoomText = () => {
       ref={sectionRef}
       className="relative min-h-[300vh] sm:min-h-[350vh] md:min-h-[400vh]"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky bg-white top-0 h-screen overflow-hidden">
         <div className="absolute inset-0">
           <video
             ref={videoRef}
@@ -339,6 +340,29 @@ const Home = () => {
     }, 100);
   };
 
+  const faqItems = [
+    { 
+      id: '01',
+      question: 'What is Lorem Ipsum?', 
+      answer: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem ipsum dolor sit amet consectetur. In augue ipsum tellus ultrices. Ac pharetra ultrices consectetur consequat tellus massa. Nec aliquam cras sagittis duis sed euismod arcu hac.' 
+    },
+    { 
+      id: '02',
+      question: 'What is Lorem Ipsum?', 
+      answer: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' 
+    },
+    { 
+      id: '03',
+      question: 'What is Lorem Ipsum?', 
+      answer: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' 
+    },
+    { 
+      id: '04',
+      question: 'What is Lorem Ipsum?', 
+      answer: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' 
+    },
+  ];
+
   return (
     <>
       {/* Splash Loader */}
@@ -356,8 +380,11 @@ const Home = () => {
         <VeloGlow />
         <ImageScroll />
         <ColorChangeText />
-        <ReelsCards />
         <ZoomText />
+        <main className="min-h-screen bg-black">
+          <FaqAccordionNew items={faqItems} />
+        </main>
+        <ReelsCards />
       </main>
     </>
   );
