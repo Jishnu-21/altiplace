@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface FaqItem {
   question: string;
@@ -13,8 +13,6 @@ interface FaqAccordionProps {
 }
 
 const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -107,8 +105,6 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
                       scale: 1.01,
                       transition: { duration: 0.2 }
                     }}
-                    onHoverStart={() => setHoveredIndex(index)}
-                    onHoverEnd={() => setHoveredIndex(null)}
                   >
                     <div className="p-4">
                       <div className="flex items-start gap-3">
