@@ -8,6 +8,7 @@ import ReelsCards from '@/components/ReelsCards';
 import SplashLoader from '@/components/SplashLoader';
 import FaqAccordionNew from '@/components/FaqAccordionNew';
 import FaqAccordion from "@/components/FaqAccordion";
+import Footer from '@/components/Footer';
 
 const ImageScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -217,117 +218,6 @@ const ImageScroll = () => {
   );
 };
 
-const ZoomText = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [scale, setScale] = useState(1);
-  const [zTranslate, setZTranslate] = useState(0);
-  const [opacity, setOpacity] = useState(1);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      if (rect.top <= 0 && rect.bottom >= windowHeight) {
-        const scrolled = window.scrollY - rect.top;
-        const sectionHeight = rect.height;
-        const progress = scrolled / sectionHeight;
-        
-        const maxScale = window.innerWidth < 768 ? 2 : 3;
-        const newScale = 1 + (Math.pow(progress, 1.5) * maxScale);
-        setScale(newScale);
-        
-        const maxZMove = window.innerWidth < 768 ? 400 : 600;
-        const zMove = progress * maxZMove;
-        setZTranslate(zMove);
-
-        const fadeStart = 0.9;
-        if (progress > fadeStart) {
-          const fadeProgress = (progress - fadeStart) / (1 - fadeStart);
-          setOpacity(Math.max(1 - fadeProgress, 0));
-        } else {
-          setOpacity(1);
-        }
-      } else if (rect.top > 0) {
-        setScale(1);
-        setZTranslate(0);
-        setOpacity(1);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <section 
-      ref={sectionRef}
-      className="relative min-h-[300vh] sm:min-h-[350vh] md:min-h-[400vh]"
-    >
-      <div className="sticky bg-white top-0 h-screen overflow-hidden">
-        <div className="absolute inset-0">
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source 
-              src="https://cdn.prod.website-files.com/676ed6008062626040aa764f/677fd6a74c3084ed75a113cb_video-shoe-transcode.mp4" 
-              type="video/mp4" 
-            />
-          </video>
-        </div>
-
-        <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6 md:px-8">
-          <div 
-            className="transition-all duration-1000 ease-out"
-            style={{
-              transform: `
-                perspective(2000px)
-                translateZ(${zTranslate}px)
-                scale(${scale})
-              `,
-              opacity: opacity,
-              transformStyle: 'preserve-3d'
-            }}
-          >
-            <div className="relative w-[280px] h-[70px] sm:w-[400px] sm:h-[100px] md:w-[600px] md:h-[150px] lg:w-[800px] lg:h-[200px]">
-              <div 
-                className="absolute inset-0 bg-white"
-                style={{
-                  maskImage: 'url(https://cdn.prod.website-files.com/676ed6008062626040aa764f/677fd7b22e91eb9714578b95_677fccdd00269f526be400b3_mask-text.svg)',
-                  WebkitMaskImage: 'url(https://cdn.prod.website-files.com/676ed6008062626040aa764f/677fd7b22e91eb9714578b95_677fccdd00269f526be400b3_mask-text.svg)',
-                  maskSize: 'contain',
-                  WebkitMaskSize: 'contain',
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskPosition: 'center',
-                  WebkitMaskPosition: 'center',
-                  maskComposite: 'exclude',
-                  WebkitMaskComposite: 'xor',
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-  
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
@@ -381,10 +271,10 @@ const Home = () => {
         <VeloGlow />
         <ImageScroll />
         <ColorChangeText />
-        <ZoomText />
         <FaqAccordion items={faqItems} />
         <ReelsCards />
         <FaqAccordionNew items={faqItems} />
+        <Footer />
       </main>
     </>
   );
