@@ -101,7 +101,10 @@ const FaqAccordionNew: React.FC<FaqAccordionNewProps> = ({ items }) => {
 
         {/* See All FAQ Button */}
         <div className="mt-12 text-center">
-          <button className="bg-[#1a1a1a] hover:bg-gray-800 text-white font-medium py-3 px-8 rounded-full transition-colors cursor-pointer">
+          <button 
+            className="bg-[#1a1a1a] hover:bg-gray-800 text-white font-medium py-3 px-8 rounded-full transition-colors cursor-pointer"
+            onClick={() => {/* Handle see all FAQ */}}
+          >
             See All FAQ
           </button>
         </div>
