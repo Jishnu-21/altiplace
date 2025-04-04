@@ -7,6 +7,7 @@ import ColorChangeText from '@/components/ColorChangeText';
 import ReelsCards from '@/components/ReelsCards';
 import SplashLoader from '@/components/SplashLoader';
 import FaqAccordionNew from '@/components/FaqAccordionNew';
+import FaqAccordion from "@/components/FaqAccordion";
 
 const ImageScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -381,10 +382,9 @@ const Home = () => {
         <ImageScroll />
         <ColorChangeText />
         <ZoomText />
-        <main className="min-h-screen bg-black">
-          <FaqAccordionNew items={faqItems} />
-        </main>
+        <FaqAccordion items={faqItems} />
         <ReelsCards />
+        <FaqAccordionNew items={faqItems} />
       </main>
     </>
   );
