@@ -6,6 +6,7 @@ import VeloGlow from '@/components/VeloGlow';
 import ColorChangeText from '@/components/ColorChangeText';
 import ReelsCards from '@/components/ReelsCards';
 import Image from 'next/image';
+import SplashLoader from '@/components/SplashLoader';
 
 const ImageScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,41 +14,83 @@ const ImageScroll = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showText, setShowText] = useState(false);
-  const totalFrames = 262;
+  const [isLoading, setIsLoading] = useState(true);
+  // Reduce total frames for faster loading
+  const totalFrames = 131; // Reduced from 262 - using every other frame
   const imageCache = useRef(new Map());
   const ticking = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
+    // Create abort controller for cancelling image loads when component unmounts
+    abortControllerRef.current = new AbortController();
+    
     const loadFirstFrame = () => {
       const img = new window.Image();
-      const frameNumber = String(1);
-      img.src = `/images/video/${frameNumber}.png`;
+      img.src = `/images/video/1.png`;
       img.onload = () => {
         imageCache.current.set(1, img);
+        setCurrentFrame(1);
         loadRemainingFrames();
       };
     };
 
     const loadRemainingFrames = async () => {
       let loaded = 1; 
+      const signal = abortControllerRef.current?.signal;
 
       const loadImage = (frameNum: number) => {
         return new Promise<void>((resolve) => {
+          if (signal?.aborted) {
+            resolve();
+            return;
+          }
+
           const img = new window.Image();
-          const frameNumber = String(frameNum);
+          // Use every other frame to reduce loading time
+          const actualFrameNum = frameNum * 2 - 1;
+          const frameNumber = String(actualFrameNum);
           img.src = `/images/video/${frameNumber}.png`;
+          
+          const timeoutId = setTimeout(() => {
+            console.warn(`Frame ${frameNumber} timed out, skipping`);
+            resolve();
+          }, 5000); // 5 second timeout for each image
+          
           img.onload = () => {
+            clearTimeout(timeoutId);
             imageCache.current.set(frameNum, img);
             loaded++;
             setLoadingProgress(Math.floor((loaded / totalFrames) * 100));
+            if (loaded >= totalFrames) {
+              setIsLoading(false);
+            }
             resolve();
           };
-          img.onerror = () => resolve();
+          
+          img.onerror = () => {
+            clearTimeout(timeoutId);
+            console.error(`Failed to load frame ${frameNumber}`);
+            resolve();
+          };
         });
       };
 
-      const chunkSize = 10;
-      for (let i = 2; i <= totalFrames; i += chunkSize) {
+      // Prioritize frames that will be seen first (first 20%)
+      const priorityFrames = Math.floor(totalFrames * 0.2);
+      const regularFrames = totalFrames - priorityFrames;
+      
+      // Load priority frames first (sequential loading)
+      for (let i = 2; i <= priorityFrames; i++) {
+        if (signal?.aborted) break;
+        await loadImage(i);
+      }
+      
+      // Then load the rest in chunks
+      const chunkSize = 5; // Smaller chunks for better performance
+      for (let i = priorityFrames + 1; i <= totalFrames; i += chunkSize) {
+        if (signal?.aborted) break;
+        
         const chunk = Array.from(
           { length: Math.min(chunkSize, totalFrames - i + 1) },
           (_, index) => loadImage(i + index)
@@ -57,11 +100,22 @@ const ImageScroll = () => {
     };
 
     loadFirstFrame();
-  }, []);
+    
+    return () => {
+      // Cancel all pending image loads when component unmounts
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      // Clear image cache to free memory
+      imageCache.current.clear();
+    };
+  }, [totalFrames]);
 
   useEffect(() => {
-    setShowText(currentFrame >= 192 && currentFrame <= 500);
-  }, [currentFrame]);
+    // Adjust the frame range for showing text based on the new total frames
+    const adjustedStartFrame = Math.floor(192 * (totalFrames / 262));
+    setShowText(currentFrame >= adjustedStartFrame && currentFrame <= totalFrames);
+  }, [currentFrame, totalFrames]);
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current || ticking.current) return;
@@ -85,14 +139,18 @@ const ImageScroll = () => {
       setScrollProgress(progress);
       ticking.current = false;
     });
-  }, []);
+  }, [totalFrames]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  const frameNumber = String(currentFrame);
+  // Get the current frame image or fallback to first frame
+  const getCurrentFrame = () => {
+    const img = imageCache.current.get(currentFrame);
+    return img ? img.src : imageCache.current.get(1)?.src || '';
+  };
 
   return (
     <div className="relative bg-black" ref={containerRef} style={{ height: '400vh' }}>
@@ -118,16 +176,25 @@ const ImageScroll = () => {
         />
         
         <div className="relative w-full h-full">
-          <Image 
-            src={`/images/video/${frameNumber}.png`}
-            alt={`Frame ${frameNumber}`}
-            className="w-full h-full object-cover"
-            fill
-          />
+          {/* Display the current frame */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            {imageCache.current.get(1) && (
+              <div 
+                className="w-full h-full bg-center bg-no-repeat bg-cover"
+                style={{ 
+                  backgroundImage: `url(${getCurrentFrame()})`,
+                  transition: isLoading ? 'none' : 'background-image 0.1s ease-out'
+                }}
+              />
+            )}
+          </div>
           
-          <div className={`absolute bottom-16 left-16 max-w-lg transition-all duration-700 ease-out transform ${
-            showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
+          {/* Text overlay - positioned at bottom left */}
+          <div 
+            className={`absolute bottom-16 left-16 max-w-lg transition-all duration-700 ease-out transform ${
+              showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
             <h2 className="text-4xl font-bold text-white mb-4 font-['Helvetica'] tracking-wider">
               EGEON FROM SATURNE
             </h2>
@@ -261,15 +328,39 @@ const ZoomText = () => {
 };
   
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [contentVisible, setContentVisible] = useState(false);
+
+  // Handle splash screen completion
+  const handleLoadComplete = () => {
+    setIsLoading(false);
+    // Add a small delay before showing content for smoother transition
+    setTimeout(() => {
+      setContentVisible(true);
+    }, 100);
+  };
+
   return (
-    <main className="min-h-screen bg-black">
+    <>
+      {/* Splash Loader */}
+      {isLoading && <SplashLoader onLoadComplete={handleLoadComplete} />}
+      
+      {/* Main Content */}
+      <main 
+        className="min-h-screen bg-black transition-opacity duration-500"
+        style={{ 
+          opacity: contentVisible ? 1 : 0,
+          visibility: contentVisible ? 'visible' : 'hidden'
+        }}
+      >
         <Header />
         <VeloGlow />
         <ImageScroll />
         <ColorChangeText />
         <ReelsCards />
         <ZoomText />
-    </main>
+      </main>
+    </>
   );
 };
 
