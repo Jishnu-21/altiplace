@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useMemo, useCallback } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ReelCard {
   id: number;
   videoSrc: string;
