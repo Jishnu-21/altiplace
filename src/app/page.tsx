@@ -17,7 +17,7 @@ const ImageScroll = () => {
   const [showText, setShowText] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   // Reduce total frames for faster loading
-  const totalFrames = 131; // Reduced from 262 - using every other frame
+  const totalFrames = 65; // Reduced from 262 - using every other frame
   const imageCache = useRef(new Map());
   const ticking = useRef(false);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -49,7 +49,7 @@ const ImageScroll = () => {
 
           const img = new window.Image();
           // Use every other frame to reduce loading time
-          const actualFrameNum = frameNum * 2 - 1;
+          const actualFrameNum = frameNum * 4 - 1;
           const frameNumber = String(actualFrameNum);
           img.src = `/images/video/${frameNumber}.png`;
           
