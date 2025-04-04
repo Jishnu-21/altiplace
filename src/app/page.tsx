@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import VeloGlow from '@/components/VeloGlow';
 import ColorChangeText from '@/components/ColorChangeText';
 import ReelsCards from '@/components/ReelsCards';
-import Image from 'next/image';
 import SplashLoader from '@/components/SplashLoader';
 
 const ImageScroll = () => {
@@ -78,7 +77,6 @@ const ImageScroll = () => {
 
       // Prioritize frames that will be seen first (first 20%)
       const priorityFrames = Math.floor(totalFrames * 0.2);
-      const regularFrames = totalFrames - priorityFrames;
       
       // Load priority frames first (sequential loading)
       for (let i = 2; i <= priorityFrames; i++) {
@@ -101,13 +99,14 @@ const ImageScroll = () => {
 
     loadFirstFrame();
     
+    const currentImageCache = imageCache.current;
     return () => {
       // Cancel all pending image loads when component unmounts
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
       // Clear image cache to free memory
-      imageCache.current.clear();
+      currentImageCache.clear();
     };
   }, [totalFrames]);
 
