@@ -84,17 +84,20 @@ const ColorChangeText: React.FC = () => {
       
       <div className="sticky top-0 min-h-screen flex items-center">
         <div className="w-full max-w-[90rem] mx-auto relative z-10">
-          <div className="pl-16 md:pl-24 pr-6">
-            <div className="flex flex-col items-start gap-6">
+          <div className="px-4 sm:px-8 md:px-16 lg:px-24">
+            <div className="flex flex-col items-start gap-2 sm:gap-3 md:gap-4 lg:gap-6">
               {lines.map((line, index) => (
                 <div
                   key={index}
                   ref={el => setLineRef(el, index)}
                   className="transition-all duration-500 will-change-transform"
                   style={{
-                    fontSize: '5rem',
-                    lineHeight: '1.1',
+                    fontSize: 'clamp(1.75rem, 5vw, 5rem)',
+                    lineHeight: '1.2',
                     fontWeight: '300',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    maxWidth: '100%',
+                    overflowWrap: 'break-word',
                   }}
                 >
                   {line}

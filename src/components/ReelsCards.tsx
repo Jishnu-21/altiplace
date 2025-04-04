@@ -121,15 +121,64 @@ const ReelsCards: React.FC = () => {
     videoRefs.current[index] = el;
   }, []);
 
+  // Get visible reels based on screen size
+  const visibleReels = useMemo(() => {
+    // Check if window is defined (for SSR compatibility)
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      // Show only 3 cards on mobile (less than 768px)
+      if (width < 768) {
+        return reels.slice(0, 3);
+      }
+    }
+    return reels;
+  }, [reels]);
+
   // Precompute card styles for better performance
-  const cardStyles = useMemo(() => 
-    reels.map((_, index) => {
-      const offset = index - 2.5;
-      const translateX = offset * 180;
+  const cardStyles = useMemo(() => {
+    // Get window width for responsive calculations
+    const getResponsiveValues = () => {
+      // Default values for desktop
+      let baseOffset = 2.5;
+      let translateXMultiplier = 180;
+      let rotationMultiplier = 5;
+      let translateYBase = 120;
+      
+      // Check if window is defined (for SSR compatibility)
+      if (typeof window !== 'undefined') {
+        const width = window.innerWidth;
+        
+        if (width < 640) { // Small mobile
+          baseOffset = 1;
+          translateXMultiplier = 80;
+          rotationMultiplier = 3;
+          translateYBase = 60;
+        } else if (width < 768) { // Large mobile / small tablet
+          baseOffset = 1;
+          translateXMultiplier = 120;
+          rotationMultiplier = 4;
+          translateYBase = 80;
+        } else if (width < 1024) { // Tablet
+          baseOffset = 2.2;
+          translateXMultiplier = 150;
+          rotationMultiplier = 4.5;
+          translateYBase = 100;
+        }
+      }
+      
+      return { baseOffset, translateXMultiplier, rotationMultiplier, translateYBase };
+    };
+    
+    const { baseOffset, translateXMultiplier, rotationMultiplier, translateYBase } = getResponsiveValues();
+    const currentReels = visibleReels;
+    
+    return currentReels.map((_, index) => {
+      const offset = index - (currentReels.length > 3 ? baseOffset : 1);
+      const translateX = offset * translateXMultiplier;
       const rotationZ = index % 2 === 0 
-        ? Math.abs(offset) * 5 
-        : -Math.abs(offset) * 5;
-      const translateY = Math.abs(offset) * 10 - 120;
+        ? Math.abs(offset) * rotationMultiplier 
+        : -Math.abs(offset) * rotationMultiplier;
+      const translateY = Math.abs(offset) * 10 - translateYBase;
       
       return {
         transform: `
@@ -139,7 +188,32 @@ const ReelsCards: React.FC = () => {
         `,
         zIndex: 10 - Math.abs(offset)
       };
-    }), [reels]);
+    });
+  }, [visibleReels]);
+
+  // Listen for window resize to update card styles
+  useEffect(() => {
+    const handleResize = () => {
+      // Force a re-render to recalculate card styles
+      // This is a simple approach; for production, consider using a state variable
+      // to trigger re-renders only when necessary
+      forceUpdate();
+    };
+    
+    // Simple forceUpdate implementation
+    const forceUpdate = () => {
+      if (containerRef.current) {
+        const display = containerRef.current.style.display;
+        containerRef.current.style.display = 'none';
+        // Trigger reflow
+        void containerRef.current.offsetHeight;
+        containerRef.current.style.display = display;
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <section 
@@ -149,15 +223,15 @@ const ReelsCards: React.FC = () => {
       <div className="sticky top-0 h-screen">
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div 
-            className="relative w-full max-w-[1400px] h-[80vh] mx-auto px-8 mt-16"
+            className="relative w-full max-w-[1400px] h-[80vh] mx-auto px-4 sm:px-6 lg:px-8 mt-16"
             style={{
               perspective: '1200px',
               transformStyle: 'preserve-3d',
             }}
           >
-            <div className="absolute top-[-100px] right-8 z-0 text-right">
+            <div className="absolute top-[-100px] right-4 sm:right-8 z-0 text-right">
               <h1 
-                className="text-8xl md:text-[180px] font-bold text-white select-none"
+                className="text-5xl sm:text-8xl md:text-[180px] font-bold text-white select-none"
                 style={{
                   fontFamily: 'Arial, sans-serif',
                   letterSpacing: '-0.05em',
@@ -170,10 +244,10 @@ const ReelsCards: React.FC = () => {
             </div>
             
             <div className="flex justify-center items-center w-full h-full relative z-10">
-              {reels.map((reel, index) => (
+              {visibleReels.map((reel, index) => (
                 <div
                   key={reel.id}
-                  className="absolute w-[300px] h-[520px] rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-6"
+                  className="absolute w-[200px] h-[350px] sm:w-[250px] sm:h-[435px] md:w-[300px] md:h-[520px] rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-6"
                   style={{
                     ...cardStyles[index],
                     border: '4px solid rgba(255, 255, 255, 0.95)',
