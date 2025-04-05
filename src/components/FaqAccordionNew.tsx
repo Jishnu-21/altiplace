@@ -50,7 +50,7 @@ const FaqAccordionNew: React.FC<FaqAccordionNewProps> = ({ items }) => {
               value={searchQuery}
               onChange={handleSearch}
             />
-            <button className="bg-white text-black font-medium text-xs sm:text-sm rounded-full cursor-pointer hover:bg-gray-100 transition-colors min-w-[80px] sm:min-w-[100px] h-8 sm:h-10 flex items-center justify-center">
+            <button className="bg-white text-black font-bold text-xs sm:text-sm rounded-full cursor-pointer hover:bg-black hover:text-white transition-all duration-200 border border-transparent hover:border-white min-w-[80px] sm:min-w-[100px] h-8 sm:h-10 flex items-center justify-center">
               Search
             </button>
           </div>

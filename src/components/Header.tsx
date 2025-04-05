@@ -96,7 +96,7 @@ const Header = () => {
           <div className="flex items-center space-x-3 flex-shrink-0">
             <Link 
               href="/shop" 
-              className="hidden sm:block bg-white text-black px-3 sm:px-4 lg:px-6 py-1.5 rounded-full font-medium text-xs lg:text-sm transition-all duration-200 hover:bg-black hover:text-white border border-transparent hover:border-white"
+              className="hidden sm:block bg-white text-black px-3 sm:px-4 lg:px-6 py-1.5 rounded-full font-bold text-xs lg:text-sm transition-all duration-200 hover:bg-black hover:text-white border border-transparent hover:border-white"
             >
               SHOP NOW
             </Link>
@@ -180,7 +180,7 @@ const Header = () => {
             </Link>
             <Link 
               href="/shop" 
-              className={`mt-4 bg-white text-black px-6 py-2 rounded-full font-medium text-sm transition-all duration-500 hover:bg-black hover:text-white border border-transparent hover:border-white transform ${mobileMenuOpen ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-4 opacity-0 scale-95'}`}
+              className={`mt-4 bg-white text-black px-6 py-2 rounded-full font-bold text-sm transition-all duration-500 hover:bg-black hover:text-white border border-transparent hover:border-white transform ${mobileMenuOpen ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-4 opacity-0 scale-95'}`}
               onClick={() => setMobileMenuOpen(false)}
               style={{ transitionDelay: '500ms' }}
             >
