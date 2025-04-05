@@ -60,56 +60,62 @@ const Header = () => {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-black/70 backdrop-blur-md py-3 md:py-4' 
-          : 'bg-transparent py-4 md:py-6'
+          ? 'bg-black/70 backdrop-blur-md py-2 md:py-3' 
+          : 'bg-transparent py-3 md:py-4'
       } transform ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 md:px-8 lg:px-12">
         <nav className="flex items-center justify-between">
-          <Link href="/" >
+          <Link href="/" className="flex-shrink-0">
             <Image 
               src="/images/logo/altipace.svg" 
               alt="Altiplace Logo" 
-              className="h-8 md:h-10 w-auto transition-all duration-300"
-              width={120}
-              height={40}
+              className="h-7 md:h-8 w-auto transition-all duration-300"
+              width={110}
+              height={35}
             />
           </Link>
           
           {/* Desktop navigation links */}
-          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center space-x-4 lg:space-x-8">
-            <Link href="/about" className="text-white hover:text-gray-300 transition-colors text-sm lg:text-base">
+          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center space-x-3 lg:space-x-6 max-w-[40%]">
+            <Link href="/about" className="text-white hover:text-gray-300 transition-colors text-xs lg:text-sm">
               About
             </Link>
-            <Link href="/contact" className="text-white hover:text-gray-300 transition-colors text-sm lg:text-base">
+            <Link href="/contact" className="text-white hover:text-gray-300 transition-colors text-xs lg:text-sm">
               Contact
             </Link>
-            <Link href="/shop" className="text-white hover:text-gray-300 transition-colors text-sm lg:text-base">
+            <Link href="/shop" className="text-white hover:text-gray-300 transition-colors text-xs lg:text-sm">
               Shop
             </Link>
-            <Link href="/career" className="text-white hover:text-gray-300 transition-colors text-sm lg:text-base">
+            <Link href="/career" className="text-white hover:text-gray-300 transition-colors text-xs lg:text-sm">
               Career
             </Link>
           </div>
 
           {/* Right-aligned shop now button */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3 flex-shrink-0">
             <Link 
               href="/shop" 
-              className="hidden sm:block bg-white text-black px-4 sm:px-6 lg:px-8 py-2 rounded-full font-medium text-sm lg:text-base transition-all duration-200 hover:bg-black hover:text-white border border-transparent hover:border-white"
+              className="hidden sm:block bg-white text-black px-3 sm:px-4 lg:px-6 py-1.5 rounded-full font-medium text-xs lg:text-sm transition-all duration-200 hover:bg-black hover:text-white border border-transparent hover:border-white"
             >
               SHOP NOW
             </Link>
 
             {/* Hamburger menu button for mobile */}
             <button 
-              className="hamburger-button md:hidden flex flex-col justify-center items-center w-10 h-10 relative focus:outline-none"
+              className="hamburger-button md:hidden flex flex-col justify-center items-center w-8 h-8 relative focus:outline-none overflow-hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+              <span 
+                className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+              ></span>
+              <span 
+                className={`block w-5 h-0.5 bg-white mt-1.5 transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'opacity-0 translate-x-3' : ''}`}
+              ></span>
+              <span 
+                className={`block w-5 h-0.5 bg-white mt-1.5 transition-all duration-300 ease-in-out ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+              ></span>
             </button>
           </div>
         </nav>
@@ -117,43 +123,60 @@ const Header = () => {
 
       {/* Mobile menu overlay */}
       <div 
-        className={`mobile-menu fixed inset-0 bg-black/95 backdrop-blur-lg z-40 transition-all duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        style={{ top: '64px' }} // Match header height
+        className={`mobile-menu fixed inset-0 bg-black z-40 transition-all duration-500 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        style={{ top: '56px' }} // Match reduced header height
       >
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col items-center space-y-6">
+        {/* Background animation elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div 
+            className={`absolute -top-[30%] -left-[30%] w-[60%] h-[60%] rounded-full bg-blue-500/5 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
+            style={{ transitionDelay: '200ms' }}
+          ></div>
+          <div 
+            className={`absolute top-[70%] -right-[10%] w-[40%] h-[40%] rounded-full bg-purple-500/5 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
+            style={{ transitionDelay: '300ms' }}
+          ></div>
+        </div>
+        
+        <div className="container mx-auto px-6 py-6 relative z-10">
+          <div className="flex flex-col items-center space-y-5">
             <Link 
               href="/about" 
-              className="text-white hover:text-gray-300 transition-colors text-2xl font-light"
+              className={`text-white hover:text-gray-300 transition-all duration-500 text-xl font-light transform ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
               onClick={() => setMobileMenuOpen(false)}
+              style={{ transitionDelay: '100ms' }}
             >
               About
             </Link>
             <Link 
               href="/contact" 
-              className="text-white hover:text-gray-300 transition-colors text-2xl font-light"
+              className={`text-white hover:text-gray-300 transition-all duration-500 text-xl font-light transform ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
               onClick={() => setMobileMenuOpen(false)}
+              style={{ transitionDelay: '200ms' }}
             >
               Contact
             </Link>
             <Link 
               href="/shop" 
-              className="text-white hover:text-gray-300 transition-colors text-2xl font-light"
+              className={`text-white hover:text-gray-300 transition-all duration-500 text-xl font-light transform ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
               onClick={() => setMobileMenuOpen(false)}
+              style={{ transitionDelay: '300ms' }}
             >
               Shop
             </Link>
             <Link 
               href="/career" 
-              className="text-white hover:text-gray-300 transition-colors text-2xl font-light"
+              className={`text-white hover:text-gray-300 transition-all duration-500 text-xl font-light transform ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
               onClick={() => setMobileMenuOpen(false)}
+              style={{ transitionDelay: '400ms' }}
             >
               Career
             </Link>
             <Link 
               href="/shop" 
-              className="mt-6 bg-white text-black px-8 py-3 rounded-full font-medium text-lg transition-all duration-200 hover:bg-black hover:text-white border border-transparent hover:border-white"
+              className={`mt-4 bg-white text-black px-6 py-2 rounded-full font-medium text-sm transition-all duration-500 hover:bg-black hover:text-white border border-transparent hover:border-white transform ${mobileMenuOpen ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-4 opacity-0 scale-95'}`}
               onClick={() => setMobileMenuOpen(false)}
+              style={{ transitionDelay: '500ms' }}
             >
               SHOP NOW
             </Link>

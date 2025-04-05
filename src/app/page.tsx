@@ -191,21 +191,24 @@ const ImageScroll = () => {
             )}
           </div>
           
-          {/* Text overlay - positioned at bottom left */}
-          <div 
-            className={`absolute bottom-16 left-16 max-w-lg transition-all duration-700 ease-out transform ${
-              showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <h2 className="text-4xl font-bold text-white mb-4 font-['Helvetica'] tracking-wider">
-              EGEON FROM SATURNE
-            </h2>
-            <p className="text-lg text-gray-300">
-              The Egeon isn&apos;t just a shoe &ndash; it&apos;s a statement. Designed for those who value 
-              aesthetics as much as performance, combining cutting-edge technology with a 
-              timeless design.
-            </p>
-          </div>
+{/* Text overlay - positioned at bottom left with extra margin */}
+<div 
+  className={`absolute bottom-8 sm:bottom-12 md:bottom-16 left-10 sm:left-16 md:left-24 xl:left-64 max-w-lg px-4 sm:px-0 transition-all duration-700 ease-out transform ${
+    showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+  }`}
+>
+
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-4 font-['Helvetica'] tracking-wider">
+    EGEON FROM SATURNE
+  </h2>
+  <p className="text-base sm:text-lg text-gray-300 pr-10 sm:pr-0">
+    The Egeon isn&apos;t just a shoe &ndash; it&apos;s a statement. Designed for those who value 
+    aesthetics as much as performance, combining cutting-edge technology with a 
+    timeless design.
+  </p>
+</div>
+
+
           
           {loadingProgress < 100 && (
             <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-md text-sm">

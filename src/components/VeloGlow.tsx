@@ -20,10 +20,10 @@ const VeloGlow: React.FC = memo(() => {
       />
       
       {/* Container for both text and image */}
-      <div className="relative">
+      <div className="relative w-full flex justify-center items-center">
         {/* Text layer */}
         <div 
-          className="relative text-[18rem] font-bold tracking-wider text-white"
+          className="relative text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] xl:text-[16rem] font-bold tracking-wider text-white text-center mx-auto px-4 sm:px-0"
           style={{ 
             fontFamily: 'Montserrat, sans-serif',
             transform: 'translate3d(0,0,0)',
@@ -48,12 +48,9 @@ const VeloGlow: React.FC = memo(() => {
 
         {/* Image layer */}
         <div 
-          className="absolute left-1/2 pointer-events-none"
+          className="absolute left-1/2 pointer-events-none w-[62vw] h-[62vw] sm:w-[340px] sm:h-[340px] md:w-[400px] md:h-[400px] lg:w-[430px] lg:h-[430px] xl:w-[530px] xl:h-[530px] -top-[35%] sm:-top-[35%] md:-top-[40%]"
           style={{
             transform: 'translate3d(-50%, 20%, 0)',
-            width: '600px',
-            height: '600px',
-            top: '-40%'
           }}
         >
           <Image

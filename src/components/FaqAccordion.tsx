@@ -45,7 +45,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
   };
 
   return (
-    <section className="relative bg-black overflow-hidden">
+    <section className="relative bg-black overflow-hidden py-16 md:py-24">
       <div className="sticky top-0 h-screen">
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <motion.div 
