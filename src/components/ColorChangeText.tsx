@@ -62,17 +62,19 @@ const ColorChangeText: React.FC = () => {
   }, []);
 
   const lines = [
-    "Experience the future of sustainable",
-    "mobility with our groundbreaking",
-    "electric vehicles that redefine",
-    "the way we move forward."
+    "There are many variations of",
+    "passages of Lorem Ipsum available,",
+    "but the majority have suffered",
+    "alteration in some form, by injected",
+    "humour, or randomised words",
+    "which don't look even slightly",
   ];
 
   return (
     <div className="relative min-h-[200vh]" ref={containerRef}>
       {/* Top gradient overlay - lighter for better visibility */}
       <div 
-        className="absolute top-0 left-0 right-0 h-[300px] z-20" 
+        className="absolute top-0 left-0 right-0 h-[200px] z-20" 
         style={{
           background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.3) 70%, transparent 100%)',
           opacity: 0.8,

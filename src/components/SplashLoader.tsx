@@ -2,20 +2,43 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface SplashLoaderProps {
   duration?: number; // Duration in milliseconds
   onLoadComplete?: () => void;
+  forceShow?: boolean; // Force show splash screen even if assets are loaded
 }
 
 const SplashLoader: React.FC<SplashLoaderProps> = ({ 
   duration = 10000, 
-  onLoadComplete 
+  onLoadComplete,
+  forceShow = false
 }) => {
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [shouldShow, setShouldShow] = useState(true);
+  const router = useRouter();
 
+  // Check if we should show the splash screen
   useEffect(() => {
+    // Skip splash screen if assets are already loaded (not first visit)
+    // unless forceShow is true
+    if (typeof window !== 'undefined' && !forceShow) {
+      const assetsLoaded = localStorage.getItem('altiplace_assets_loaded');
+      if (assetsLoaded === 'true') {
+        setShouldShow(false);
+        // Immediately complete
+        if (onLoadComplete) onLoadComplete();
+        return;
+      }
+    }
+  }, [forceShow, onLoadComplete]);
+
+  // Progress animation effect
+  useEffect(() => {
+    if (!shouldShow) return;
+    
     // Calculate how often to update the progress bar to make it smooth
     const interval = 20; // Update every 20ms for smooth animation
     const steps = duration / interval;
@@ -30,6 +53,11 @@ const SplashLoader: React.FC<SplashLoaderProps> = ({
       if (currentProgress >= 100) {
         clearInterval(timer);
         
+        // Mark assets as loaded in localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('altiplace_assets_loaded', 'true');
+        }
+        
         // Start fade out animation
         setTimeout(() => {
           setIsVisible(false);
@@ -42,9 +70,12 @@ const SplashLoader: React.FC<SplashLoaderProps> = ({
     }, interval);
     
     return () => clearInterval(timer);
-  }, [duration, onLoadComplete]);
+  }, [duration, onLoadComplete, shouldShow]);
+  
+  // If we shouldn't show the splash screen, return null immediately
+  if (!shouldShow || !isVisible) return null;
 
-  if (!isVisible) return null;
+
 
   return (
     <div 

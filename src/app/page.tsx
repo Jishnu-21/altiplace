@@ -9,6 +9,7 @@ import SplashLoader from '@/components/SplashLoader';
 import FaqAccordionNew from '@/components/FaqAccordionNew';
 import FaqAccordion from "@/components/FaqAccordion";
 import Footer from '@/components/Footer';
+import SplineScene from '@/components/SplineScene';
 
 const ImageScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -259,8 +260,8 @@ const Home = () => {
 
   return (
     <>
-      {/* Splash Loader */}
-      {isLoading && <SplashLoader onLoadComplete={handleLoadComplete} />}
+      {/* Splash Loader - only shows on first visit */}
+      {isLoading && <SplashLoader onLoadComplete={handleLoadComplete} forceShow={false} />}
       
       {/* Main Content */}
       <main 
@@ -275,6 +276,11 @@ const Home = () => {
         <ImageScroll />
         <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <ColorChangeText />
+        <SplineScene 
+          scene="https://prod.spline.design/bN4gT15LXRTd0sEw/scene.splinecode"
+          className="w-full h-[600px]" 
+          fallbackText="Loading amazing 3D experience..."
+        />
         <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <FaqAccordion items={faqItems} />
         <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
