@@ -51,7 +51,7 @@ const SplashLoader: React.FC<SplashLoaderProps> = ({
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-500"
       style={{ opacity: isVisible ? 1 : 0 }}
     >
-      <div className="w-full max-w-md px-4">
+      <div className="w-full max-w-md px-6 md:px-8 lg:px-12">
         {/* Logo */}
         <div className="flex justify-center mb-12">
           <Image 

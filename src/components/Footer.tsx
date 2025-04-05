@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="bg-black text-white py-12 font-['Poppins',sans-serif]">
       <div className="w-full max-w-full mx-auto bg-[#111111] p-10">
         {/* Logo and Line Section - Full Width */}
-        <div className="w-full max-w-[1400px] mx-auto mb-16 relative px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1400px] mx-auto mb-16 relative px-6 md:px-8 lg:px-12">
           <div className="w-full relative">
             <Image 
               src="/images/logo/altipace.svg" 
@@ -25,7 +25,7 @@ const Footer = () => {
         </div>
 
         {/* All content below follows the same margin as the line */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1400px] mx-auto pl-[10%] pr-4 sm:pr-6 lg:pr-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1400px] mx-auto pl-[10%] pr-6 md:pr-8 lg:pr-12">
           {/* Info Column */}
           <div className="col-span-1 md:col-span-1">
             <p className="text-sm text-gray-400 mb-4">
@@ -139,7 +139,7 @@ const Footer = () => {
         </div>
         
         {/* Help Section */}
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-8 max-w-[1400px] mx-auto pl-[10%] pr-4 sm:pr-6 lg:pr-8">
+        <div className="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-8 max-w-[1400px] mx-auto pl-[10%] pr-6 md:pr-8 lg:pr-12">
           <div className="flex flex-col md:flex-row items-center gap-4 mb-4 md:mb-0">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">

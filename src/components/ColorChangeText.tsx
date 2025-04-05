@@ -84,7 +84,7 @@ const ColorChangeText: React.FC = () => {
       
       <div className="sticky top-0 min-h-screen flex items-center">
         <div className="w-full max-w-[90rem] mx-auto relative z-10">
-          <div className="px-4 sm:px-8 md:px-16 lg:px-24">
+          <div className="px-6 md:px-8 lg:px-12">
             <div className="flex flex-col items-start gap-2 sm:gap-3 md:gap-4 lg:gap-6">
               {lines.map((line, index) => (
                 <div

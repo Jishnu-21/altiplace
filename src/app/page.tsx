@@ -273,10 +273,15 @@ const Home = () => {
         <Header />
         <VeloGlow />
         <ImageScroll />
+        <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <ColorChangeText />
+        <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <FaqAccordion items={faqItems} />
+        <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <ReelsCards />
+        <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <FaqAccordionNew items={faqItems} />
+        <div className="mb-16 md:mb-24"></div> {/* Consistent spacing between components */}
         <Footer />
       </main>
     </>

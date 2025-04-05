@@ -123,22 +123,28 @@ const Header = () => {
 
       {/* Mobile menu overlay */}
       <div 
-        className={`mobile-menu fixed inset-0 bg-black z-40 transition-all duration-500 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`mobile-menu fixed inset-0 z-40 transition-all duration-500 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         style={{ top: '56px' }} // Match reduced header height
       >
+        {/* Enhanced background with gradient and blur effect */}
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-md z-0"></div>
         {/* Background animation elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
           <div 
-            className={`absolute -top-[30%] -left-[30%] w-[60%] h-[60%] rounded-full bg-blue-500/5 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
+            className={`absolute -top-[30%] -left-[30%] w-[60%] h-[60%] rounded-full bg-blue-500/10 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
             style={{ transitionDelay: '200ms' }}
           ></div>
           <div 
-            className={`absolute top-[70%] -right-[10%] w-[40%] h-[40%] rounded-full bg-purple-500/5 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
+            className={`absolute top-[70%] -right-[10%] w-[40%] h-[40%] rounded-full bg-purple-500/10 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
             style={{ transitionDelay: '300ms' }}
+          ></div>
+          <div 
+            className={`absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-indigo-500/10 transition-all duration-1000 ease-out ${mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} 
+            style={{ transitionDelay: '400ms' }}
           ></div>
         </div>
         
-        <div className="container mx-auto px-6 py-6 relative z-10">
+        <div className="container mx-auto px-6 py-6 relative z-20">
           <div className="flex flex-col items-center space-y-5">
             <Link 
               href="/about" 

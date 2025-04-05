@@ -23,7 +23,7 @@ const VeloGlow: React.FC = memo(() => {
       <div className="relative w-full flex justify-center items-center">
         {/* Text layer */}
         <div 
-          className="relative text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] xl:text-[16rem] font-bold tracking-wider text-white text-center mx-auto px-4 sm:px-0"
+          className="relative text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] xl:text-[16rem] font-bold tracking-wider text-white text-center mx-auto px-6 md:px-8 lg:px-12"
           style={{ 
             fontFamily: 'Montserrat, sans-serif',
             transform: 'translate3d(0,0,0)',

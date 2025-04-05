@@ -218,12 +218,12 @@ const ReelsCards: React.FC = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative bg-black overflow-hidden py-16 md:py-24"
+      className="relative bg-black overflow-hidden"
     >
       <div className="sticky top-0 h-screen">
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div 
-            className="relative w-full max-w-[1400px] h-[80vh] mx-auto px-4 sm:px-6 lg:px-8 mt-16"
+            className="relative w-full max-w-[1400px] h-[80vh] mx-auto px-6 md:px-8 lg:px-12 mt-16"
             style={{
               perspective: '1200px',
               transformStyle: 'preserve-3d',
